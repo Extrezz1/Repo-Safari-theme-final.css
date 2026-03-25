@@ -1,0 +1,321 @@
+/* ============================================================
+   ETHANOS DARK ENGINE v10.1 — SIGILCORE + DEAD PIXELS (NO SHAKE) (EXTRA RED) (FINAL WITH WAVEBAR AND SIMULATED PKT LOSS, LATENCY, UP, AND DOWN MB SIMULATION)
+   ============================================================ */
+
+/* ============================================================
+   HUD NAMESPACE (PROTECTS HUD FROM DARK MODE OVERRIDES)
+   ============================================================ */
+html {
+    --hud: 1;
+}
+
+/* ---------------- DISCORD SHIELD ---------------- */
+html.theme-dark, html.theme-dark * {
+    animation: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+/* ============================================================
+   REND_R SIGIL SPLASH (FULLSCREEN, FAKE-RANDOM 5–20s)
+   ============================================================ */
+
+@keyframes rendrFlashA {
+    0%, 96% { opacity: 0; }
+    97%, 99% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@keyframes rendrFlashB {
+    0%, 92% { opacity: 0; }
+    93%, 95% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@keyframes rendrFlashC {
+    0%, 98% { opacity: 0; }
+    99% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+html:not(.theme-dark)::before {
+    content: "   /\\\A  /  \\\A /  / \\\A/__/___\\\A\A R E N D_R";
+    white-space: pre;
+    font-family: monospace;
+    font-size: 26px;
+    color: #ff0000;
+    background: #000;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    opacity: 0;
+    pointer-events: none;
+    animation:
+        rendrFlashA 23s infinite,
+        rendrFlashB 27s infinite,
+        rendrFlashC 21s infinite;
+}
+
+/* ============================================================
+   DEAD PIXEL CORRUPTION (NO SCREEN SHAKE)
+   ============================================================ */
+
+@keyframes deadPixelsOpacity {
+    0%, 85% { opacity: 0; }
+    86%, 95% { opacity: 1; }
+    96%, 100% { opacity: 0; }
+}
+
+@keyframes deadPixelsDrift {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(2px); }
+    100% { transform: translateX(-2px); }
+}
+
+html:not(.theme-dark)::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999998;
+    opacity: 0;
+
+    background-image:
+        linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+        linear-gradient(to bottom, rgba(255,0,0,0.8), rgba(255,0,0,0.8)),
+        linear-gradient(to bottom, rgba(0,255,255,0.8), rgba(0,255,255,0.8));
+    background-repeat: no-repeat;
+    background-size:
+        2px 100%,
+        1px 100%,
+        2px 100%;
+    background-position:
+        10vw 0,
+        40vw 0,
+        73vw 0;
+
+    animation:
+        deadPixelsOpacity 11s infinite,
+        deadPixelsDrift 1.2s infinite;
+}
+
+/* ============================================================
+   GLOBAL GLITCH EFFECTS (NON-DISCORD ONLY)
+   ============================================================ */
+
+@keyframes rgbSplitStrong {
+    0%, 85% { text-shadow: none; }
+    86% { text-shadow: 5px 0 red, -5px 0 cyan; }
+    87% { text-shadow: -5px 0 red, 5px 0 cyan; }
+    88% { text-shadow: 3px 0 red, -3px 0 cyan; }
+    89% { text-shadow: none; }
+}
+
+@keyframes dataTearStrong {
+    0%, 90% { transform: translate(0,0); }
+    91% { transform: translate(0, -12px); }
+    92% { transform: translate(0, 8px); }
+    93% { transform: translate(0, -15px); }
+    94%, 100% { transform: translate(0, 0); }
+}
+
+@keyframes redactStrong {
+    0%, 80% { background: transparent; color: inherit; }
+    81%, 95% { background: #000 !important; color: #000 !important; }
+    96%, 100% { background: transparent; color: inherit; }
+}
+
+@keyframes globalFlickerStrong {
+    0%, 95% { filter: none; }
+    96% { filter: contrast(300%) brightness(200%) saturate(200%); }
+    97% { filter: contrast(50%) brightness(50%) saturate(50%); }
+    98% { filter: contrast(200%) brightness(150%); }
+    99%, 100% { filter: none; }
+}
+
+html:not(.theme-dark) body *:nth-child(7n) {
+    animation: rgbSplitStrong 1.5s infinite;
+}
+html:not(.theme-dark) body *:nth-child(11n) {
+    animation: dataTearStrong 0.5s infinite;
+}
+html:not(.theme-dark) body *:nth-child(15n) {
+    animation: redactStrong 5s infinite;
+}
+html:not(.theme-dark) {
+    animation: globalFlickerStrong 3s infinite;
+}
+
+.tab.active {
+    border: 2px solid #ff0000 !important;
+    box-shadow: 0 0 6px #ff0000 !important;
+}
+
+.tab:hover {
+    border: 1px solid #ff4444 !important;
+}
+
+.toolbar {
+    border-bottom: 1px solid #ff0000 !important;
+}
+
+.tab-bar {
+    box-shadow: 0 0 10px #550000 inset !important;
+}
+
+body {
+    background: red !important;
+}
+
+html, body {
+    background: #000 !important;
+    color: #ff0000 !important;
+}
+
+a {
+    color: #ff4444 !important;
+}
+
+/* ============================================================
+   GLOBAL DARK MODE (EXCEPT DISCORD) — HUD-PATCHED
+   ============================================================ */
+
+html:not(.theme-dark) body,
+html:not(.theme-dark) *:not(body::after):not(body::before):not(html::after):not(html::before) {
+    background-color: #000 !important;
+    color: #f00 !important;
+}
+
+/* ============================================================
+   HUD TOP LINE: SYS OK + WAVEFORM
+   ============================================================ */
+html[style*="--hud"] body::after {
+    content: "SYS OK  |  [▂▄▅▇█▇▅▄▂]";
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-family: monospace;
+    font-size: 16px;
+    color: #ff0000 !important;
+    background: rgba(0, 0, 0, 0.55) !important;
+    padding: 6px 12px 2px 12px;
+    border: 1px solid #ff0000 !important;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    pointer-events: none;
+    z-index: 999999;
+    animation: wavePulse 1.8s infinite steps(8);
+}
+
+@keyframes wavePulse {
+    0%   { content: "SYS OK  |  [▂▄▅▇█▇▅▄▂]"; }
+    12%  { content: "SYS OK  |  [▄▅▇█▇▅▄▂▁]"; }
+    25%  { content: "SYS OK  |  [▅▇█▇▅▄▂▁▂]"; }
+    37%  { content: "SYS OK  |  [▇█▇▅▄▂▁▂▄]"; }
+    50%  { content: "SYS OK  |  [█▇▅▄▂▁▂▄▅]"; }
+    62%  { content: "SYS OK  |  [▇▅▄▂▁▂▄▅▇]"; }
+    75%  { content: "SYS OK  |  [▅▄▂▁▂▄▅▇█]"; }
+    87%  { content: "SYS OK  |  [▄▂▁▂▄▅▇█▇]"; }
+    100% { content: "SYS OK  |  [▂▁▂▄▅▇█▇▅]"; }
+}
+
+/* ============================================================
+   HUD MIDDLE BLOCK: NETWORK DIAGNOSTICS
+   ============================================================ */
+html[style*="--hud"] body::before {
+    content: "PKT LOSS: 87MB\A"
+             "LATENCY: 42ms\A"
+             "UP: 3.1MB/s  DOWN: 12.4MB/s";
+    white-space: pre;
+    position: fixed;
+    top: 48px;
+    right: 20px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #ff0000 !important;
+    background: rgba(0, 0, 0, 0.55) !important;
+    padding: 4px 12px;
+    border: 1px solid #ff0000 !important;
+    border-top: none;
+    border-bottom: none;
+    pointer-events: none;
+    z-index: 999998;
+    animation: netPulse 2.4s infinite steps(6);
+}
+
+@keyframes netPulse {
+    0%   { content: "PKT LOSS: 87MB\ALATENCY: 42ms\AUP: 3.1MB/s  DOWN: 12.4MB/s"; }
+    20%  { content: "PKT LOSS: 12MB\ALATENCY: 3ms\AUP: 1.2MB/s  DOWN: 8.4MB/s"; }
+    40%  { content: "PKT LOSS: 304MB\ALATENCY: 91ms\AUP: 0.4MB/s  DOWN: 2.1MB/s"; }
+    60%  { content: "PKT LOSS: 51MB\ALATENCY: 18ms\AUP: 4.8MB/s  DOWN: 14.9MB/s"; }
+    80%  { content: "PKT LOSS: 0.4MB\ALATENCY: 7ms\AUP: 2.2MB/s  DOWN: 9.3MB/s"; }
+    100% { content: "PKT LOSS: 87MB\ALATENCY: 42ms\AUP: 3.1MB/s  DOWN: 12.4MB/s"; }
+}
+
+/* ============================================================
+   HUD BOTTOM BLOCK: STATIC DIAGNOSTICS + GLITCH
+   ============================================================ */
+html[style*="--hud"] html::after {
+    content: "ERROR COUNT: 0x0000A3\A"
+             "SIGNAL: ▂▄▅▇█\A"
+             "THREAD 09: STABLE";
+    white-space: pre;
+    position: fixed;
+    top: 118px;
+    right: 20px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #ff0000 !important;
+    background: rgba(0, 0, 0, 0.55) !important;
+    padding: 4px 12px 8px 12px;
+    border: 1px solid #ff0000 !important;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    pointer-events: none;
+    z-index: 999997;
+    animation: glitchFlicker 6s infinite;
+}
+
+@keyframes glitchFlicker {
+    0%, 96% { opacity: 1; }
+    97%     { opacity: 0.4; }
+    98%     { opacity: 0.7; }
+    99%     { opacity: 0.3; }
+    100%    { opacity: 1; }
+}
+
+/* ============================================================
+   HUD LOADING BAR (LOOPING)
+   ============================================================ */
+html[style*="--hud"] html::before {
+    content: "LOAD  |  [█░░░░░░░░░]";
+    position: fixed;
+    top: 160px;
+    right: 20px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #ff0000 !important;
+    background: rgba(0, 0, 0, 0.55) !important;
+    padding: 6px 12px;
+    border: 1px solid #ff0000 !important;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 999996;
+    animation: loadBar 2.4s infinite steps(10);
+}
+
+@keyframes loadBar {
+    0%   { content: "LOAD  |  [█░░░░░░░░░]"; }
+    10%  { content: "LOAD  |  [██░░░░░░░░]"; }
+    20%  { content: "LOAD  |  [███░░░░░░░]"; }
+    30%  { content: "LOAD  |  [████░░░░░░]"; }
+    40%  { content: "LOAD  |  [█████░░░░░]"; }
+    50%  { content: "LOAD  |  [██████░░░░]"; }
+    60%  { content: "LOAD  |  [███████░░░]"; }
+    70%  { content: "LOAD  |  [████████░░]"; }
+    80%  { content: "LOAD  |  [█████████░]"; }
+    90%  { content: "LOAD  |  [██████████]"; }
+    100% { content: "LOAD  |  [█░░░░░░░░░]"; }
+}
